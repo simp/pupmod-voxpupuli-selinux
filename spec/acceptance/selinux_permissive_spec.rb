@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'selinux::permissive define' do
+describe 'vox_selinux::permissive define' do
   before(:all) do
     hosts.each do |host|
       host.execute('getenforce') do |result|
@@ -19,7 +19,7 @@ describe 'selinux::permissive define' do
 
   context 'ensure present for passwd_t' do
     let(:result) do
-      manifest = "selinux::permissive {'passwd_t':}"
+      manifest = "vox_selinux::permissive {'passwd_t':}"
       apply_manifest(manifest, catch_failures: true)
     end
 
@@ -40,7 +40,7 @@ describe 'selinux::permissive define' do
     end
     let(:result) do
       manifest = <<-EOS
-      selinux::permissive {'passwd_t':}
+      vox_selinux::permissive {'passwd_t':}
       resources {'selinux_permissive': purge => true }
       EOS
       apply_manifest(manifest, catch_failures: true)
@@ -67,7 +67,7 @@ describe 'selinux::permissive define' do
       shell('semanage permissive -a passwd_t')
     end
     let(:result) do
-      manifest = "selinux::permissive {'kernel_t': ensure => 'absent'}"
+      manifest = "vox_selinux::permissive {'kernel_t': ensure => 'absent'}"
       apply_manifest(manifest, catch_failures: true)
     end
 

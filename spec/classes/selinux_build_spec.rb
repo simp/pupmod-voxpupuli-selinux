@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'selinux::build' do
+describe 'vox_selinux::build' do
   let(:params) { { module_build_root: '/var/lib/puppet/puppet-selinux' } }
 
   it { is_expected.to compile.with_all_deps }

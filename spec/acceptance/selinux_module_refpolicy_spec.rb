@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'spec_helper_acceptance'
 
 #
@@ -5,7 +6,7 @@ require 'spec_helper_acceptance'
 # where module B depends on an interface provided by
 # module A.
 #
-describe 'selinux module refpolicy' do
+describe 'vox_selinux module refpolicy' do
   before(:all) do
     hosts.each do |host|
       host.execute('getenforce') do |result|
@@ -24,7 +25,7 @@ describe 'selinux module refpolicy' do
 
   let(:pp) do
     <<-EOS
-      class { 'selinux': }
+      class { 'vox_selinux': }
 
       file {'/tmp/selinux_test_a.te':
         ensure  => 'file',
@@ -60,12 +61,12 @@ describe 'selinux module refpolicy' do
           puppet_test_a_domtrans(puppet_test_b_t)
           | EOF
       } ->
-      selinux::module { 'puppet_test_a':
+      vox_selinux::module { 'puppet_test_a':
         source_te   => 'file:///tmp/selinux_test_a.te',
         source_if   => 'file:///tmp/selinux_test_a.if',
         builder     => 'refpolicy',
       } ->
-      selinux::module { 'puppet_test_b':
+      vox_selinux::module { 'puppet_test_b':
         source_te   => 'file:///tmp/selinux_test_b.te',
         builder     => 'refpolicy',
       }

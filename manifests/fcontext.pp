@@ -1,15 +1,17 @@
-# Manage custom SELinux fcontexts
-
-# For fcontext equivalences, see selinux::fcontext::equivalence
+# vox_selinux::fcontext
+#
+# @summary Manage custom SELinux fcontexts
+#
+# For fcontext equivalences, see vox_selinux::fcontext::equivalence
 #
 # @example Add a file-context for mysql log files at non standard location
-#   selinux::fcontext{'set-mysql-log-context':
+#   vox_selinux::fcontext{'set-mysql-log-context':
 #     seltype  => 'mysqld_log_t',
 #     pathspec => '/u01/log/mysql(/.*)?',
 #   }
 #
 # @example Add a file-context only for directory types
-#   selinux::fcontext{'/u/users/[^/]*':
+#   vox_selinux::fcontext{'/u/users/[^/]*':
 #     filetype => 'd',
 #     seltype  => 'user_home_dir_t' ,
 #   }
@@ -31,7 +33,7 @@
 #       - s = socket
 #       - l = symbolic link
 #       - p = named pipe
-define selinux::fcontext(
+define vox_selinux::fcontext(
   String $pathspec                  = $title,
   Enum['absent', 'present'] $ensure = 'present',
   Optional[String] $seltype         = undef,
@@ -39,15 +41,15 @@ define selinux::fcontext(
   Optional[String] $filetype        = 'a',
 ) {
 
-  include selinux
+  include vox_selinux
   if $ensure == 'present' {
-  Anchor['selinux::module post']
-  -> Selinux::Fcontext[$title]
-  -> Anchor['selinux::end']
+  Anchor['vox_selinux::module post']
+  -> Vox_selinux::Fcontext[$title]
+  -> Anchor['vox_selinux::end']
   } else {
-    Anchor['selinux::start']
-    -> Selinux::Fcontext[$title]
-    -> Anchor['selinux::module pre']
+    Anchor['vox_selinux::start']
+    -> Vox_selinux::Fcontext[$title]
+    -> Anchor['vox_selinux::module pre']
   }
 
   if $filetype !~ /^(?:a|f|d|c|b|s|l|p)$/ {

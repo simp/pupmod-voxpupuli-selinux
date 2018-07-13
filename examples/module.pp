@@ -11,7 +11,7 @@
 # Sample Usage:
 #
 
-selinux::module { 'apache-selinux':
+vox_selinux::module { 'apache-selinux':
   ensure => 'present',
   source => 'puppet:///modules/apache/selinux/apache.te',
 }
