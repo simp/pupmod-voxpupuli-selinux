@@ -42,6 +42,9 @@ This class manages SELinux on RHEL based systems.
 > * Disabled reporting to the `voxpupuli` channels on test failures
 > * Updated .travis.yml for deployment and SIMP-style testing stages
 > * Updated the README.md to note the changes
+>
+> You can see specifically how things were updated by reading the
+> `simp_vox_migration.sh` script.
 
 ---
 
@@ -53,6 +56,13 @@ This class manages SELinux on RHEL based systems.
 
 This module will configure SELinux and/or deploy SELinux based modules to
 running system.
+
+## Get in touch
+
+* IRC: [#voxpupuli on irc.freenode.net](irc://irc.freenode.net/voxpupuli)
+  ([Freenode WebChat](http://webchat.freenode.net/?channels=%23voxpupuli))
+* Mailinglist: <voxpupuli@groups.io>
+  ([groups.io Webinterface](https://groups.io/g/voxpupuli/topics))
 
 ## Upgrading from puppet-selinux 0.8.x
 
@@ -69,7 +79,7 @@ running system.
 
   You will need to update your manifests to use the new parameter names.
 
-* The selinux::restorecond manifest to manage the restorecond service no longer exists
+* The vox_selinux::restorecond manifest to manage the restorecond service no longer exists
 
 ## Known problems / limitations
 
@@ -141,7 +151,7 @@ vox_selinux::module { 'resnet-puppet':
 ### Using pre-compiled policy packages
 
 ```puppet
-selinux::module { 'resnet-puppet':
+vox_selinux::module { 'resnet-puppet':
   ensure    => 'present',
   source_pp => 'puppet:///modules/site_puppet/site-puppet.pp',
 }
