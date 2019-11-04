@@ -9,17 +9,17 @@
 #
 # @api private
 #
-class selinux::config (
-  $mode           = $::selinux::mode,
-  $type           = $::selinux::type,
-  $manage_package = $::selinux::manage_package,
-  $package_name   = $::selinux::package_name,
+class vox_selinux::config (
+  $mode           = $::vox_selinux::mode,
+  $type           = $::vox_selinux::type,
+  $manage_package = $::vox_selinux::manage_package,
+  $package_name   = $::vox_selinux::package_name,
 ) {
 
   assert_private()
 
   if ($mode == 'enforcing' and !$facts['selinux']) {
-    notice('SELinux is disabled. Forcing configuration to permissive to avoid problems. To disable this warning, explicitly set selinux::mode to permissive or disabled.')
+    notice('SELinux is disabled. Forcing configuration to permissive to avoid problems. To disable this warning, explicitly set vox_selinux::mode to permissive or disabled.')
     $_real_mode = 'permissive'
   } else {
     $_real_mode = $mode

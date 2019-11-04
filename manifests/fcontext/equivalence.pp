@@ -5,12 +5,12 @@
 # @param ensure the desired state of the equivalence. Default: present
 #
 # @example Make /opt/wordpress equivalent to /usr/share/wordpress
-#   selinux::fcontext::equivalence { '/opt/wordpress':
+#   vox_selinux::fcontext::equivalence { '/opt/wordpress':
 #     ensure => 'present',
 #     target => '/usr/share/wordpress',
 #   }
 #
-define selinux::fcontext::equivalence(
+define vox_selinux::fcontext::equivalence(
   String $target,
   String $path = $title,
   Enum['present', 'absent'] $ensure = 'present'
@@ -19,13 +19,13 @@ define selinux::fcontext::equivalence(
   include selinux
 
   if $ensure == 'present' {
-    Anchor['selinux::module post']
-    -> Selinux::Fcontext::Equivalence[$title]
-    -> Anchor['selinux::end']
+    Anchor['vox_selinux::module post']
+    -> Vox_selinux::Fcontext::Equivalence[$title]
+    -> Anchor['vox_selinux::end']
   } else {
-    Anchor['selinux::start']
-    -> Selinux::Fcontext::Equivalence[$title]
-    -> Anchor['selinux::module pre']
+    Anchor['vox_selinux::start']
+    -> Vox_selinux::Fcontext::Equivalence[$title]
+    -> Anchor['vox_selinux::module pre']
   }
 
   selinux_fcontext_equivalence { $path:

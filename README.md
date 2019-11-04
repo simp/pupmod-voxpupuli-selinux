@@ -21,6 +21,34 @@
 
 This class manages SELinux on RHEL based systems.
 
+---
+
+> This module has been forked from
+> (voxpupuli/selinux)[https://github.com/voxpupuli/puppet-selinux] so that it
+> could be re-namespaced as `vox_selinux` for the
+> (SIMP)[https://simp-project.com] framework.
+>
+> Migration to the upstream module will happen in the future after sufficient
+> time has been provided for users to migrate away from the legacy SIMP
+> provided module.
+>
+> Any changes made here should be sent in as PRs to the upstream module and
+> this should not deviate from the upstream release outside of the namespace if
+> at all possible.
+>
+> Per the Apache 2.0 license requirements, the following changes have been made:
+> * Renamed the module from `puppet/selinux` to `simp/vox_selinux`
+> * Changed the namespace for all components to `vox_selinux`
+> * Updated the tests to reflect the changes
+> * Disabled reporting to the `voxpupuli` channels on test failures
+> * Updated .travis.yml for deployment and SIMP-style testing stages
+> * Updated the README.md to note the changes
+>
+> You can see specifically how things were updated by reading the
+> `simp_vox_migration.sh` script.
+
+---
+
 ## Requirements
 
 * Puppet 5 or later
@@ -52,7 +80,7 @@ running system.
 
   You will need to update your manifests to use the new parameter names.
 
-* The selinux::restorecond manifest to manage the restorecond service no longer exists
+* The vox_selinux::restorecond manifest to manage the restorecond service no longer exists
 
 ## Known problems / limitations
 
@@ -63,17 +91,17 @@ running system.
   will downgrade to permissive mode instead to avoid transitioning directly from
   disabled to enforcing state after a reboot and potentially breaking the system.
   The user will receive a warning when this happens,
-* If you add filecontexts with `semanage fcontext` (what `selinux::fcontext`
+* If you add filecontexts with `semanage fcontext` (what `vox_selinux::fcontext`
   does) the order is important. If you add /my/folder before /my/folder/subfolder
   only /my/folder will match (limitation of SELinux). There is no such limitation
   to file-contexts defined in SELinux modules. (GH-121)
-* While SELinux is disabled the defined types `selinux::boolean`,
-  `selinux::fcontext`, `selinux::port` will produce puppet agent runtime errors
+* While SELinux is disabled the defined types `vox_selinux::boolean`,
+  `vox_selinux::fcontext`, `selinux::port` will produce puppet agent runtime errors
   because the used tools fail.
 * If you try to remove a built-in permissive type, the operation will appear to succeed
   but will actually have no effect, making your puppet runs non-idempotent.
 * The `selinux_port` provider may misbehave if the title does not correspond to
-  the format it expects. Users should use the `selinux::port` define instead except
+  the format it expects. Users should use the `vox_selinux::port` define instead except
   when purging resources
 * Defining port ranges that overlap with existing ranges is currently not detected, and will
   cause semanage to error when the resource is applied.
@@ -113,7 +141,7 @@ to fully take effect. It will run in `permissive` mode until then.
 ### Deploy a custom module using the refpolicy framework
 
 ```puppet
-selinux::module { 'resnet-puppet':
+vox_selinux::module { 'resnet-puppet':
   ensure    => 'present',
   source_te => 'puppet:///modules/site_puppet/site-puppet.te',
   source_fc => 'puppet:///modules/site_puppet/site-puppet.fc',
@@ -125,7 +153,7 @@ selinux::module { 'resnet-puppet':
 ### Using pre-compiled policy packages
 
 ```puppet
-selinux::module { 'resnet-puppet':
+vox_selinux::module { 'resnet-puppet':
   ensure    => 'present',
   source_pp => 'puppet:///modules/site_puppet/site-puppet.pp',
 }
@@ -138,7 +166,7 @@ to test that your packages load properly.
 ### Set a boolean value
 
 ```puppet
-selinux::boolean { 'puppetagent_manage_all_files': }
+vox_selinux::boolean { 'puppetagent_manage_all_files': }
 ```
 
 ## Defined Types

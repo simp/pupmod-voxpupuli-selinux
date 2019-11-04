@@ -16,22 +16,22 @@
 #   refpolicy module builder
 #   Default value: OS dependent (see params.pp)
 # @param module_build_root directory where modules are built. Defaults to `$vardir/puppet-selinux`
-# @param default_builder which builder to use by default with selinux::module
-# @param boolean Hash of selinux::boolean resource parameters
-# @param fcontext Hash of selinux::fcontext resource parameters
-# @param module Hash of selinux::module resource parameters
-# @param permissive Hash of selinux::module resource parameters
-# @param port Hash of selinux::port resource parameters
-# @param exec_restorecon Hash of selinux::exec_restorecon resource parameters
+# @param default_builder which builder to use by default with vox_selinux::module
+# @param boolean Hash of vox_selinux::boolean resource parameters
+# @param fcontext Hash of vox_selinux::fcontext resource parameters
+# @param module Hash of vox_selinux::module resource parameters
+# @param permissive Hash of vox_selinux::module resource parameters
+# @param port Hash of vox_selinux::port resource parameters
+# @param exec_restorecon Hash of vox_selinux::exec_restorecon resource parameters
 #
 class selinux (
   Optional[Enum['enforcing', 'permissive', 'disabled']] $mode = undef,
   Optional[Enum['targeted', 'minimum', 'mls']] $type          = undef,
   Stdlib::Absolutepath $refpolicy_makefile                    = '/usr/share/selinux/devel/Makefile',
   Boolean $manage_package                                     = true,
-  String $package_name                                        = $::selinux::params::package_name,
+  String $package_name                                        = $::vox_selinux::params::package_name,
   String $refpolicy_package_name                              = 'selinux-policy-devel',
-  Stdlib::Absolutepath $module_build_root                     = $::selinux::params::module_build_root,
+  Stdlib::Absolutepath $module_build_root                     = $::vox_selinux::params::module_build_root,
   Enum['refpolicy', 'simple'] $default_builder                = 'simple',
 
   ### START Hiera Lookups ###
@@ -43,39 +43,39 @@ class selinux (
   Optional[Hash] $exec_restorecon = undef,
   ### END Hiera Lookups ###
 
-) inherits selinux::params {
+) inherits vox_selinux::params {
 
-  class { 'selinux::package':
+  class { 'vox_selinux::package':
     manage_package => $manage_package,
     package_name   => $package_name,
   }
 
-  class { 'selinux::config': }
+  class { 'vox_selinux::config': }
 
   if $boolean {
-    create_resources ( 'selinux::boolean', $boolean )
+    create_resources ( 'vox_selinux::boolean', $boolean )
   }
   if $fcontext {
-    create_resources ( 'selinux::fcontext', $fcontext )
+    create_resources ( 'vox_selinux::fcontext', $fcontext )
   }
   if $module {
-    create_resources ( 'selinux::module', $module )
+    create_resources ( 'vox_selinux::module', $module )
   }
   if $permissive {
-    create_resources ( 'selinux::permissive', $permissive )
+    create_resources ( 'vox_selinux::permissive', $permissive )
   }
   if $port {
-    create_resources ( 'selinux::port', $port )
+    create_resources ( 'vox_selinux::port', $port )
   }
   if $exec_restorecon {
-    create_resources ( 'selinux::exec_restorecon', $exec_restorecon )
+    create_resources ( 'vox_selinux::exec_restorecon', $exec_restorecon )
   }
 
   # Ordering
-  anchor { 'selinux::start': }
-  -> Class['selinux::package']
-  -> Class['selinux::config']
-  -> anchor { 'selinux::module pre': }
-  -> anchor { 'selinux::module post': }
-  -> anchor { 'selinux::end': }
+  anchor { 'vox_selinux::start': }
+  -> Class['vox_selinux::package']
+  -> Class['vox_selinux::config']
+  -> anchor { 'vox_selinux::module pre': }
+  -> anchor { 'vox_selinux::module post': }
+  -> anchor { 'vox_selinux::end': }
 }

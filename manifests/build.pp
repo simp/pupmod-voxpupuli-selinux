@@ -16,8 +16,8 @@
 #
 # @api private
 #
-class selinux::build(
-  Stdlib::Absolutepath $module_build_root = $::selinux::module_build_root,
+class vox_selinux::build(
+  Stdlib::Absolutepath $module_build_root = $::vox_selinux::module_build_root,
 ) {
   file {$module_build_root:
     ensure => 'directory',

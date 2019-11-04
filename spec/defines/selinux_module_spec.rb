@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'selinux::module' do
+describe 'vox_selinux::module' do
   let(:title) { 'mymodule' }
 
   on_supported_os.each do |os, facts|
@@ -22,8 +22,8 @@ describe 'selinux::module' do
           }
         end
 
-        it { is_expected.to contain_selinux__module('mymodule').that_requires('Anchor[selinux::module pre]') }
-        it { is_expected.to contain_selinux__module('mymodule').that_comes_before('Anchor[selinux::module post]') }
+        it { is_expected.to contain_vox_selinux__module('mymodule').that_requires('Anchor[vox_selinux::module pre]') }
+        it { is_expected.to contain_vox_selinux__module('mymodule').that_comes_before('Anchor[vox_selinux::module post]') }
       end
 
       context 'present case with refpolicy builder and with te file only' do
@@ -112,7 +112,7 @@ describe 'selinux::module' do
         end
 
         it { is_expected.to contain_file(workdir) }
-        it { is_expected.to contain_class('selinux::build').that_comes_before('Selinux::Module[mymodule]') }
+        it { is_expected.to contain_class('vox_selinux::build').that_comes_before('Selinux::Module[mymodule]') }
         it { is_expected.to contain_file("#{workdir}/mymodule.te").that_notifies('Exec[clean-module-mymodule]') }
         it { is_expected.to contain_file("#{workdir}/mymodule.fc").with(source: nil, content: '') }
         it { is_expected.to contain_file("#{workdir}/mymodule.if").with(source: nil, content: '') }
