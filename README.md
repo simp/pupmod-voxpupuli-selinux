@@ -21,6 +21,35 @@
 
 This class manages SELinux on RHEL based systems.
 
+---
+
+> This module has been forked from
+> (voxpupuli/selinux)[https://github.com/voxpupuli/puppet-selinux] so that it
+> could be re-namespaced as `vox_selinux` for the
+> (SIMP)[https://simp-project.com] framework.
+>
+> Migration to the upstream module will happen in the future after sufficient
+> time has been provided for users to migrate away from the legacy SIMP
+> provided module.
+>
+> Any changes made here should be sent in as PRs to the upstream module and
+> this should not deviate from the upstream release outside of the namespace if
+> at all possible.
+>
+> Per the Apache 2.0 license requirements, the following changes have been made:
+> * Renamed the module from `puppet/selinux` to `simp/vox_selinux`
+> * Changed the namespace for all components to `vox_selinux`
+> * Updated the tests to reflect the changes
+> * Disabled reporting to the `voxpupuli` channels on test failures
+> * Updated .travis.yml for deployment and SIMP-style testing stages
+> * Updated the README.md to note the changes
+>
+> You can see specifically how things were updated by reading the
+> `simp_vox_migration.sh` script.
+
+---
+
+
 ## Requirements
 
 * Puppet 5 or later
