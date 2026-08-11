@@ -11,6 +11,6 @@
 # Sample Usage:
 #
 
-class { 'selinux':
+class { 'vox_selinux':
   type => 'mls',
 }

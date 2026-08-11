@@ -27,8 +27,10 @@ define vox_selinux::fcontext::equivalence (
     -> Anchor['vox_selinux::module pre']
   }
 
-  selinux_fcontext_equivalence { $path:
-    ensure => $ensure,
-    target => $target,
+  if $facts['os']['selinux']['enabled'] {
+    selinux_fcontext_equivalence { $path:
+      ensure => $ensure,
+      target => $target,
+    }
   }
 }

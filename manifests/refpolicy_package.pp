@@ -6,11 +6,11 @@
 # @api private
 #
 class vox_selinux::refpolicy_package (
-  $manage_package = $vox_selinux::manage_package,
-  $package_name   = $vox_selinux::refpolicy_package_name,
+  Boolean $manage_package = $vox_selinux::manage_package,
+  String[1] $package_name = $vox_selinux::refpolicy_package_name,
 ) inherits vox_selinux {
   assert_private()
   if $manage_package {
-    ensure_packages ($package_name)
+    stdlib::ensure_packages ($package_name)
   }
 }

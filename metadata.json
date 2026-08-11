@@ -1,6 +1,6 @@
 {
   "name": "simp-vox_selinux",
-  "version": "3.4.0",
+  "version": "6.0.0",
   "author": "Vox Pupuli",
   "summary": "This class manages SELinux - FORKED FROM puppet-selinux",
   "license": "Apache-2.0",
@@ -11,32 +11,54 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "6",
-        "7",
-        "8"
+        "8",
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "6",
-        "7",
-        "8"
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "AlmaLinux",
+      "operatingsystemrelease": [
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "8",
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "Fedora",
       "operatingsystemrelease": [
-        "30",
-        "31",
-        "32",
-        "33"
+        "40"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "10"
+        "11",
+        "12",
+        "13"
       ]
     },
     {
@@ -49,13 +71,13 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.18.0 < 8.0.0"
+      "version_requirement": ">= 9.0.0 < 10.0.0"
     }
   ],
   "requirements": [
     {
-      "name": "puppet",
-      "version_requirement": ">= 5.5.8 < 8.0.0"
+      "name": "openvox",
+      "version_requirement": ">= 8.19.0 < 9.0.0"
     }
   ]
 }

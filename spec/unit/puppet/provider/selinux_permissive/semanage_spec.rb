@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 semanage_provider = Puppet::Type.type(:selinux_permissive).provider(:semanage)
@@ -39,50 +41,59 @@ describe semanage_provider do
     context 'semanage list' do
       context 'without custom types' do
         before do
-          described_class.expects(:semanage).with('permissive', '--list').returns(semanage_output)
+          expect(described_class).to receive(:semanage).with('permissive', '--list').and_return(semanage_output)
         end
+
         it 'returns one resource' do
           expect(described_class.instances.size).to eq(1)
         end
+
         it 'has a name tlp_t and ensure present' do
           expect(described_class.instances[0].instance_variable_get('@property_hash')).to eq(
             name: 'tlp_t',
             seltype: 'tlp_t',
             ensure: :present,
-            local: false
+            local: false,
           )
         end
       end
+
       context 'With a custom type' do
         before do
-          described_class.expects(:semanage).with('permissive', '--list').returns(semanage_output_custom)
+          expect(described_class).to receive(:semanage).with('permissive', '--list').and_return(semanage_output_custom)
         end
+
         it 'returns two resources' do
           expect(described_class.instances.size).to eq(2)
         end
       end
     end
+
     context 'Creating' do
       it 'runs semanage permissive -a' do
-        described_class.expects(:semanage).with('permissive', '-a', 'test_t')
+        expect(described_class).to receive(:semanage).with('permissive', '-a', 'test_t')
         provider.create
       end
     end
+
     context 'Deleting' do
       it 'runs semanage permissive -d' do
-        described_class.expects(:semanage).with('permissive', '-d', 'test_t')
+        expect(described_class).to receive(:semanage).with('permissive', '-d', 'test_t')
         provider.destroy
       end
     end
+
     context 'Prefetch' do
       before do
-        described_class.expects(:semanage).with('permissive', '--list').returns(semanage_output_custom)
+        expect(described_class).to receive(:semanage).with('permissive', '--list').and_return(semanage_output_custom)
       end
+
       it 'matches the provider' do
         semanage_provider.prefetch('test_t' => resource, 'tlp_t' => permissive.new(seltype: 'tlp_t', ensure: :present))
-        expect(resource.provider.exists?).to eq(true)
+        expect(resource.provider.exists?).to be(true)
       end
     end
+
     context 'Prefetch when purging' do
       let(:built_in) do
         b = permissive.new(seltype: 'tlp_t')
@@ -94,7 +105,7 @@ describe semanage_provider do
       end
 
       it 'forces built-ins to be present' do
-        described_class.expects(:semanage).with('permissive', '--list').returns(semanage_output_custom)
+        expect(described_class).to receive(:semanage).with('permissive', '--list').and_return(semanage_output_custom)
         semanage_provider.prefetch('test_t' => custom, 'tlp_t' => built_in)
         expect(built_in[:ensure]).to eq(:present)
       end

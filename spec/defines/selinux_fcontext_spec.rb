@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'vox_selinux::fcontext' do
@@ -6,26 +8,27 @@ describe 'vox_selinux::fcontext' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) do
-        override_facts(os_facts, os: { selinux: { enabled: true } })
+        override_facts(os_facts, 'os' => { 'selinux' => { 'enabled' => true } })
       end
 
       context 'ordering' do
         let(:params) do
           {
             pathspec: '/tmp/file1',
-            seltype: 'user_home_dir_t'
+            seltype: 'user_home_dir_t',
           }
         end
 
         it { is_expected.to contain_vox_selinux__fcontext('myfile').that_requires('Anchor[vox_selinux::module post]') }
         it { is_expected.to contain_vox_selinux__fcontext('myfile').that_comes_before('Anchor[vox_selinux::end]') }
       end
+
       context 'removal ordering' do
         let(:params) do
           {
             ensure: 'absent',
             pathspec: '/tmp/file1',
-            seltype: 'user_home_dir_t'
+            seltype: 'user_home_dir_t',
           }
         end
 
@@ -39,39 +42,42 @@ describe 'vox_selinux::fcontext' do
           {
             pathspec: '/tmp/file1',
             filetype: 'X',
-            seltype: 'user_home_dir_t'
+            seltype: 'user_home_dir_t',
           }
         end
 
         it { is_expected.to compile.and_raise_error(%r{"filetype" must be one of: a,f,d,c,b,s,l,p - see "man semanage-fcontext"}) }
       end
+
       context 'invalid multiple filetype' do
         let(:params) do
           {
             pathspec: '/tmp/file1',
             filetype: 'afdcbslp',
-            seltype: 'user_home_dir_t'
+            seltype: 'user_home_dir_t',
           }
         end
 
         it { is_expected.to compile.and_raise_error(%r{"filetype" must be one of: a,f,d,c,b,s,l,p - see "man semanage-fcontext"}) }
       end
+
       context 'set filemode and context' do
         let(:params) do
           {
             pathspec: '/tmp/file1',
             filetype: 'a',
-            seltype: 'user_home_dir_t'
+            seltype: 'user_home_dir_t',
           }
         end
 
         it { is_expected.to contain_selinux_fcontext('/tmp/file1_a').with(pathspec: '/tmp/file1', seltype: 'user_home_dir_t', file_type: 'a') }
       end
+
       context 'set context' do
         let(:params) do
           {
             pathspec: '/tmp/file1',
-            seltype: 'user_home_dir_t'
+            seltype: 'user_home_dir_t',
           }
         end
 

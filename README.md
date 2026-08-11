@@ -1,7 +1,7 @@
 # SELinux module for Puppet
 
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-selinux.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-selinux)
-[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-selinux/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-selinux)
+[![License](https://img.shields.io/github/license/voxpupuli/puppet-selinux.svg)](https://github.com/voxpupuli/puppet-selinux/blob/master/LICENSE)
+[![Build Status](https://github.com/voxpupuli/puppet-selinux/actions/workflows/ci.yml/badge.svg)](https://github.com/voxpupuli/puppet-selinux/actions/workflows/ci.yml)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/selinux.svg)](https://forge.puppetlabs.com/puppet/selinux)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/selinux.svg)](https://forge.puppetlabs.com/puppet/selinux)
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/selinux.svg)](https://forge.puppetlabs.com/puppet/selinux)
@@ -22,9 +22,9 @@
 This class manages SELinux.
 
 > This module has been forked from
-> (voxpupuli/selinux)[https://github.com/voxpupuli/puppet-selinux] so that it
+> [voxpupuli/selinux](https://github.com/voxpupuli/puppet-selinux) so that it
 > could be re-namespaced as `vox_selinux` for the
-> (SIMP)[https://simp-project.com] framework.
+> [SIMP](https://simp-project.com) framework.
 >
 > Migration to the upstream module will happen in the future after sufficient
 > time has been provided for users to migrate away from the legacy SIMP
@@ -39,7 +39,6 @@ This class manages SELinux.
 > * Changed the namespace for all components to `vox_selinux`
 > * Updated the tests to reflect the changes
 > * Disabled reporting to the `voxpupuli` channels on test failures
-> * Updated .travis.yml for deployment and SIMP-style testing stages
 > * Updated the README.md to note the changes
 >
 > You can see specifically how things were updated by reading the
@@ -47,7 +46,7 @@ This class manages SELinux.
 
 ## Requirements
 
-* Puppet 5 or later
+* See `metadata.json`
 
 ## Module Description
 
@@ -132,8 +131,18 @@ class { selinux:
 
 This will include the module and manage the SELinux mode (possible values are
 `enforcing`, `permissive`, and `disabled`) and enforcement type (possible values
-are `targeted`, `minimum`, and `mls`). Note that disabling SELinux requires a reboot
-to fully take effect. It will run in `permissive` mode until then.
+are `targeted`, `minimum`, and `mls`).
+
+#### Note on SELinux mode changes
+Changing SELinux between `enforcing`/`permissive` and `disabled` requires a reboot to take effect.
+
+When transitioning from `disabled` to `enforcing`:
+1. The module sets SELinux to `permissive`, which requires a reboot to take effect.
+2. After the reboot, the module updates the configuration and running state to `enforcing`.
+
+When transitioning from `enforcing` to `disabled`:
+1. The module sets SELinux to `disabled`, which requires a reboot to take effect, and sets the running state to `permissive` until then.
+2. After the reboot, SELinux will be fully disabled.
 
 ### Deploy a custom module using the refpolicy framework
 
@@ -191,11 +200,11 @@ the config\_mode to be set, but only the boolean `enabled` is set.
 
 The most important facts:
 
-| Fact | Fact (old) | Mode: disabled | Mode: permissive | Mode: enforcing |
-|---|---|---|---|---|
-| `$facts['os']['selinux']['enabled']` | `$::selinux` | false | true | true |
-| `$facts['os']['selinux']['config_mode']` | `$::selinux_config_mode` | undef | Value of SELINUX in /etc/selinux/config | Value of SELINUX in /etc/selinux/config |
-| `$facts['os']['selinux']['current_mode']` | `$::selinux_current_mode` | undef | Value of `getenforce` downcased | Value of `getenforce` downcased |
+| Fact | Mode: disabled | Mode: permissive | Mode: enforcing |
+|---|---|---|---|
+| `$facts['os']['selinux']['enabled']` | false | true | true |
+| `$facts['os']['selinux']['config_mode']` | undef | Value of SELINUX in /etc/selinux/config | Value of SELINUX in /etc/selinux/config |
+| `$facts['os']['selinux']['current_mode']` | undef | Value of `getenforce` downcased | Value of `getenforce` downcased |
 
 ## Authors
 

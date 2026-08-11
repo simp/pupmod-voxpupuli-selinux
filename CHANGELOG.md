@@ -4,11 +4,115 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v3.4.0](https://github.com/voxpupuli/puppet-selinux/tree/v3.4.0) (2021-05-26)
+## [v6.0.0](https://github.com/voxpupuli/puppet-selinux/tree/v6.0.0) (2026-05-15)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-selinux/compare/v5.0.0...v6.0.0)
+
+**Breaking changes:**
+
+- Drop puppet, update openvox minimum version to 8.19 [\#414](https://github.com/voxpupuli/puppet-selinux/pull/414) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- Add support for Debian 13 \(trixie\) [\#425](https://github.com/voxpupuli/puppet-selinux/pull/425) ([lbetz](https://github.com/lbetz))
+- Add RHEL, RockyLinux, AlmaLinux, OracleLinux and CentOS 10 support [\#424](https://github.com/voxpupuli/puppet-selinux/pull/424) ([lbetz](https://github.com/lbetz))
+- Allow managing MLS ranges of SELinux logins [\#423](https://github.com/voxpupuli/puppet-selinux/pull/423) ([EmRowlands](https://github.com/EmRowlands))
+- metadata.json: Add OpenVox [\#409](https://github.com/voxpupuli/puppet-selinux/pull/409) ([jstraw](https://github.com/jstraw))
+- replace legacy facts [\#406](https://github.com/voxpupuli/puppet-selinux/pull/406) ([voreilly](https://github.com/voreilly))
+
+**Fixed bugs:**
+
+- selinux\_login: Make semanage spec independent of host SELinux state [\#431](https://github.com/voxpupuli/puppet-selinux/pull/431) ([silug](https://github.com/silug))
+- Fix `selinux_login` provider typo and title mismatch [\#382](https://github.com/voxpupuli/puppet-selinux/pull/382) ([danwain](https://github.com/danwain))
+
+**Closed issues:**
+
+- Documentation change suggestion covering when puppet changes from disabled to enforcing [\#411](https://github.com/voxpupuli/puppet-selinux/issues/411)
+
+**Merged pull requests:**
+
+- docs: fix README badges [\#421](https://github.com/voxpupuli/puppet-selinux/pull/421) ([d1nuc0m](https://github.com/d1nuc0m))
+- refactor: change from mocha to rspec-mocks [\#416](https://github.com/voxpupuli/puppet-selinux/pull/416) ([TheMeier](https://github.com/TheMeier))
+- clarify behavior when enabling/disabling SELinux [\#412](https://github.com/voxpupuli/puppet-selinux/pull/412) ([edrude](https://github.com/edrude))
+- README: remove legacy facts [\#405](https://github.com/voxpupuli/puppet-selinux/pull/405) ([kenyon](https://github.com/kenyon))
+
+## [v5.0.0](https://github.com/voxpupuli/puppet-selinux/tree/v5.0.0) (2024-09-12)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-selinux/compare/v4.1.0...v5.0.0)
+
+**Breaking changes:**
+
+- Drop EoL Fedora 36 [\#398](https://github.com/voxpupuli/puppet-selinux/pull/398) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL RedHat 7 support [\#397](https://github.com/voxpupuli/puppet-selinux/pull/397) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Fedora 30,31,32,33 support [\#396](https://github.com/voxpupuli/puppet-selinux/pull/396) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL CentOS 7/8 [\#394](https://github.com/voxpupuli/puppet-selinux/pull/394) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Debian 10 support [\#393](https://github.com/voxpupuli/puppet-selinux/pull/393) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add Fedora 36/40 support [\#395](https://github.com/voxpupuli/puppet-selinux/pull/395) ([bastelfreak](https://github.com/bastelfreak))
+- use modern stdlib function [\#391](https://github.com/voxpupuli/puppet-selinux/pull/391) ([vchepkov](https://github.com/vchepkov))
+- selinux\_build\_module\_simple.sh: improve quoting [\#375](https://github.com/voxpupuli/puppet-selinux/pull/375) ([kenyon](https://github.com/kenyon))
+
+**Merged pull requests:**
+
+- Ensure examples compile [\#384](https://github.com/voxpupuli/puppet-selinux/pull/384) ([ekohl](https://github.com/ekohl))
+
+## [v4.1.0](https://github.com/voxpupuli/puppet-selinux/tree/v4.1.0) (2023-10-31)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-selinux/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- Add EL9 support [\#378](https://github.com/voxpupuli/puppet-selinux/pull/378) ([bastelfreak](https://github.com/bastelfreak))
+- Add Rocky/AlmaLinux/OracleLinux support [\#377](https://github.com/voxpupuli/puppet-selinux/pull/377) ([bastelfreak](https://github.com/bastelfreak))
+- Add Debian 12 support [\#376](https://github.com/voxpupuli/puppet-selinux/pull/376) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- selinux::login: Miscellaneous fixes [\#364](https://github.com/voxpupuli/puppet-selinux/pull/364) ([EmRowlands](https://github.com/EmRowlands))
+
+**Merged pull requests:**
+
+- README: refer to metadata.json in the Requirements section [\#374](https://github.com/voxpupuli/puppet-selinux/pull/374) ([kenyon](https://github.com/kenyon))
+- Remove now redundant variable and method [\#372](https://github.com/voxpupuli/puppet-selinux/pull/372) ([ekohl](https://github.com/ekohl))
+
+## [v4.0.0](https://github.com/voxpupuli/puppet-selinux/tree/v4.0.0) (2023-06-29)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-selinux/compare/v3.4.1...v4.0.0)
+
+**Breaking changes:**
+
+- puppetlabs/stdlib: Require 9.x [\#370](https://github.com/voxpupuli/puppet-selinux/pull/370) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL RHEL 6 support [\#368](https://github.com/voxpupuli/puppet-selinux/pull/368) ([bastelfreak](https://github.com/bastelfreak))
+- Drop Puppet 6 support [\#365](https://github.com/voxpupuli/puppet-selinux/pull/365) ([bastelfreak](https://github.com/bastelfreak))
+- Drop Puppet 5 support [\#361](https://github.com/voxpupuli/puppet-selinux/pull/361) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Add puppet 8 support [\#369](https://github.com/voxpupuli/puppet-selinux/pull/369) ([bastelfreak](https://github.com/bastelfreak))
+- Add param for selinux::fcontext::equivalence elements [\#360](https://github.com/voxpupuli/puppet-selinux/pull/360) ([jcpunk](https://github.com/jcpunk))
+- Add Debian 11 support by moving the policy packages definition [\#359](https://github.com/voxpupuli/puppet-selinux/pull/359) ([jcpunk](https://github.com/jcpunk))
+- add support for selinux login [\#356](https://github.com/voxpupuli/puppet-selinux/pull/356) ([bshelton](https://github.com/bshelton))
+- Simplify loading of selinux sandbox tooling [\#354](https://github.com/voxpupuli/puppet-selinux/pull/354) ([jcpunk](https://github.com/jcpunk))
+
+**Fixed bugs:**
+
+- Wrap some more commands in "if selinux is enabled" [\#363](https://github.com/voxpupuli/puppet-selinux/pull/363) ([jcpunk](https://github.com/jcpunk))
+
+## [v3.4.1](https://github.com/voxpupuli/puppet-selinux/tree/v3.4.1) (2021-08-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-selinux/compare/v3.4.0...v3.4.1)
+
+**Merged pull requests:**
+
+- Allow stdlib 8.0.0 [\#348](https://github.com/voxpupuli/puppet-selinux/pull/348) ([smortex](https://github.com/smortex))
+
+## [v3.4.0](https://github.com/voxpupuli/puppet-selinux/tree/v3.4.0) (2021-05-29)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-selinux/compare/v3.3.1...v3.4.0)
 
-**Implemented enhancements:**
+**Closed issues:**
 
 - Resources that use 'semanage' should have an autorequires on the various packages [\#345](https://github.com/voxpupuli/puppet-selinux/issues/345)
 
@@ -174,7 +278,7 @@ These should not affect the functionality of the module.
 **Closed issues:**
 
 - Puppet change for each selinux module for every Puppet run [\#261](https://github.com/voxpupuli/puppet-selinux/issues/261)
-- Calls to $::selinux facts should use the $facts hash [\#258](https://github.com/voxpupuli/puppet-selinux/issues/258)
+- Calls to $selinux facts should use the $facts hash [\#258](https://github.com/voxpupuli/puppet-selinux/issues/258)
 
 **Merged pull requests:**
 
@@ -377,7 +481,7 @@ These should not affect the functionality of the module.
 **Merged pull requests:**
 
 - Release 0.7.1 [\#160](https://github.com/voxpupuli/puppet-selinux/pull/160) ([vinzent](https://github.com/vinzent))
-- Fix usage of non-existent $::selinux\_enabled fact [\#159](https://github.com/voxpupuli/puppet-selinux/pull/159) ([vinzent](https://github.com/vinzent))
+- Fix usage of non-existent $selinux\_enabled fact [\#159](https://github.com/voxpupuli/puppet-selinux/pull/159) ([vinzent](https://github.com/vinzent))
 - Default to undef for syncversion parameter in selinux::module  [\#158](https://github.com/voxpupuli/puppet-selinux/pull/158) ([vinzent](https://github.com/vinzent))
 - Remove mentions of Ruby requirements in README [\#156](https://github.com/voxpupuli/puppet-selinux/pull/156) ([juniorsysadmin](https://github.com/juniorsysadmin))
 
@@ -519,7 +623,7 @@ These should not affect the functionality of the module.
 - Whitespace lint fixes [\#63](https://github.com/voxpupuli/puppet-selinux/pull/63) ([mld](https://github.com/mld))
 - Implements SELinux type checking and ensuring. [\#62](https://github.com/voxpupuli/puppet-selinux/pull/62) ([ElvenSpellmaker](https://github.com/ElvenSpellmaker))
 - added hiera support [\#49](https://github.com/voxpupuli/puppet-selinux/pull/49) ([dacron](https://github.com/dacron))
-- Make port exec statement unique for protocol [\#37](https://github.com/voxpupuli/puppet-selinux/pull/37) ([dlevene1](https://github.com/dlevene1))
+- Make port exec statement unique for protocol [\#37](https://github.com/voxpupuli/puppet-selinux/pull/37) ([DLV111](https://github.com/DLV111))
 
 ## [v0.2.6](https://github.com/voxpupuli/puppet-selinux/tree/v0.2.6) (2015-10-20)
 
@@ -591,7 +695,6 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- Added Support for defining file types in fcontext defined type [\#21](https://github.com/voxpupuli/puppet-selinux/pull/21) ([ghost](https://github.com/ghost))
 - fix dependency name [\#20](https://github.com/voxpupuli/puppet-selinux/pull/20) ([vchepkov](https://github.com/vchepkov))
 - Add missing quotes to exec statement [\#19](https://github.com/voxpupuli/puppet-selinux/pull/19) ([lattwood](https://github.com/lattwood))
 - puppet 3.7 complaines about 'Error: Failed to apply catalog: Parameter c... [\#18](https://github.com/voxpupuli/puppet-selinux/pull/18) ([cristifalcas](https://github.com/cristifalcas))

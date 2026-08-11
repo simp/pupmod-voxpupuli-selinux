@@ -11,6 +11,6 @@
 # Sample Usage:
 #
 
-class { 'selinux':
-  type => 'minimal',
+class { 'vox_selinux':
+  type => 'minimum',
 }

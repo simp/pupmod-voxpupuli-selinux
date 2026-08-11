@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Puppet::Type.type(:selinux_fcontext).provide(:semanage) do
   desc 'Support managing SELinux custom fcontext definitions via semanage'
 
@@ -5,17 +7,9 @@ Puppet::Type.type(:selinux_fcontext).provide(:semanage) do
 
   commands semanage: 'semanage'
   # semanage fails when SELinux is disabled, so let's not pretend to work in that situation.
-  confine selinux: true
+  confine 'os.selinux.enabled': true
 
   mk_resource_methods
-
-  osfamily        = Facter.value('osfamily')
-  osversion       = Facter.value('operatingsystemmajrelease')
-  operatingsystem = Facter.value('operatingsystem')
-  @old_semanage = false
-  if (osfamily == 'RedHat') && (Puppet::Util::Package.versioncmp(osversion, '6') <= 0) && (operatingsystem != 'Amazon')
-    @old_semanage = true
-  end
 
   @file_types = {
     'all files' => 'a',
@@ -25,16 +19,11 @@ Puppet::Type.type(:selinux_fcontext).provide(:semanage) do
     '-l'        => 'l',
     '-p'        => 'p',
     '--'        => 'f',
-    '-s'        => 's'
+    '-s'        => 's',
   }
 
   def self.file_type_map(val)
     @file_types[val]
-  end
-
-  def self.type_param(file_type)
-    return file_type unless @old_semanage
-    @file_types.invert[file_type]
   end
 
   def self.parse_fcontext_lines(lines)
@@ -42,6 +31,7 @@ Puppet::Type.type(:selinux_fcontext).provide(:semanage) do
     lines.each do |line|
       next if line.strip.empty?
       next if line =~ %r{^#}
+
       split = line.split(%r{\s+})
       if split.length == 2
         path_spec, context_spec = split
@@ -69,6 +59,7 @@ Puppet::Type.type(:selinux_fcontext).provide(:semanage) do
 
   def self.parse_fcontext_file(path)
     return [] unless File.exist?(path)
+
     parse_fcontext_lines(File.readlines(path))
   end
 
@@ -98,27 +89,27 @@ Puppet::Type.type(:selinux_fcontext).provide(:semanage) do
 
   def create
     # is there really no way to have a provider-global helper function cleanly?
-    args = ['fcontext', '-a', '-t', @resource[:seltype], '-f', self.class.type_param(@resource[:file_type])]
-    args.concat(['-s', @resource[:seluser]]) if @resource[:seluser]
+    args = ['fcontext', '-a', '-t', @resource[:seltype], '-f', @resource[:file_type]]
+    args.push('-s', @resource[:seluser]) if @resource[:seluser]
     args.push(@resource[:pathspec])
     semanage(*args)
   end
 
   def destroy
-    args = ['fcontext', '-d', '-t', @property_hash[:seltype], '-f', self.class.type_param(@property_hash[:file_type])]
-    args.concat(['-s', @property_hash[:seluser]]) if @property_hash[:seluser]
+    args = ['fcontext', '-d', '-t', @property_hash[:seltype], '-f', @property_hash[:file_type]]
+    args.push('-s', @property_hash[:seluser]) if @property_hash[:seluser]
     args.push(@property_hash[:pathspec])
     semanage(*args)
   end
 
   def seltype=(val)
     val = '<<none>>' if val == :none
-    args = ['fcontext', '-m', '-t', val, '-f', self.class.type_param(@property_hash[:file_type]), @property_hash[:pathspec]]
+    args = ['fcontext', '-m', '-t', val, '-f', @property_hash[:file_type], @property_hash[:pathspec]]
     semanage(*args)
   end
 
   def seluser=(val)
-    args = ['fcontext', '-m', '-s', val, '-t', @property_hash[:seltype], '-f', self.class.type_param(@property_hash[:file_type]), @property_hash[:pathspec]]
+    args = ['fcontext', '-m', '-s', val, '-t', @property_hash[:seltype], '-f', @property_hash[:file_type], @property_hash[:pathspec]]
     semanage(*args)
   end
 
