@@ -32,7 +32,11 @@ bundle exec rake reference   # regenerate REFERENCE.md from puppet-strings
 
 Run a single spec file: `bundle exec rspec spec/classes/init_spec.rb`
 
-Pin Puppet version for `bundle install`: `PUPPET_VERSION='~> 7.0' bundle install` (default in `Gemfile` is `~> 6.0`).
+Pin the OpenVox/Puppet gem version for `bundle install`: `OPENVOX_GEM_VERSION='~> 8.0' bundle install` (default in `Gemfile` is `>= 7, < 9`).
+
+## CI
+
+`.github/workflows/` holds the standard SIMP workflows (`pr_tests.yml`, `tag_deploy.yml`, `release_rpms.yml`, `validate_tokens.yml`, `add_new_issue_to_triage_project.yml`), copied/adapted from the pupmod-simp-* puppetsync baseline. This repo is **not** managed by puppetsync, so baseline changes must be ported by hand. `pr_tests.yml` and `tag_deploy.yml` are adapted for this fork's Vox Pupuli toolchain: `rake module:build` replaces the simp-rake-helpers `pkg:*`/`pupmod:build` tasks, and there is no GitHub Actions acceptance job (use `./test-acceptance-with-vagrant` locally). Note that `simp_vox_migration.sh` deletes `.github/` on upstream import — restore these workflows afterwards like the other fork-specific files.
 
 ## Layout notes specific to this module
 
