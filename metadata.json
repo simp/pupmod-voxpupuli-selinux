@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "source": "https://github.com/simp/pupmod-voxpupuli-selinux",
   "project_page": "https://github.com/simp/pupmod-voxpupuli-selinux",
-  "issues_url": "https://simp-project.atlassian.net",
+  "issues_url": "https://github.com/simp/pupmod-voxpupuli-selinux/issues",
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",

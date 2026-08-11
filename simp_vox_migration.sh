@@ -2,7 +2,7 @@ jq '.name="simp-vox_selinux" |
     .summary="This class manages SELinux - FORKED FROM puppet-selinux" |
     .source="https://github.com/simp/pupmod-voxpupuli-selinux" |
     .project_page="https://github.com/simp/pupmod-voxpupuli-selinux" |
-    .issues_url="https://simp-project.atlassian.net"' \
+    .issues_url="https://github.com/simp/pupmod-voxpupuli-selinux/issues"' \
    metadata.json > metadata.json.tmp
 
 mv metadata.json.tmp metadata.json
