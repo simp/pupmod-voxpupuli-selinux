@@ -9,7 +9,7 @@ mv metadata.json.tmp metadata.json
 
 # Drop the upstream (Vox Pupuli) GitHub Actions. The SIMP standard workflows
 # in .github/workflows/ must be restored from the previous fork commit
-# afterwards, like the other fork-specific files (CLAUDE.md, README notice).
+# afterwards, like the other fork-specific files (e.g. the README notice).
 rm -rf .github
 
 find manifests -type f -exec sed -i 's/inherits ::selinux/inherits ::vox_selinux/g' {} \;

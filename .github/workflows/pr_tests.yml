@@ -16,7 +16,7 @@
 #   * The spec matrix pins the puppet gem via OPENVOX_GEM_VERSION (this
 #     Gemfile's variable), not PUPPET_VERSION
 #   * There is no beaker:suites acceptance job; acceptance tests run outside
-#     of GitHub Actions (see CLAUDE.md)
+#     of GitHub Actions (see ./test-acceptance-with-vagrant)
 #
 # A baseline sync will flatten the first two unless puppetsync preserves or
 # excludes them — if CI breaks on `rake pkg:*` after a sync, that's why.
