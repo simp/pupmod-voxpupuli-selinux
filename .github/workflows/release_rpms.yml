@@ -1,10 +1,11 @@
 # Manual action to build, sign, and attach a release's RPMs
 # ------------------------------------------------------------------------------
 #
-#      NOTICE: **This file is copied from the SIMP puppetsync baseline**
+#             NOTICE: **This file is maintained with puppetsync**
 #
-# This repo is not currently managed by puppetsync; if the baseline changes,
-# this file must be updated by hand.
+# This file is updated automatically as part of a puppet module baseline.
+#
+# The next baseline sync will overwrite any local changes to this file!
 #
 # ==============================================================================
 # This pipeline uses the following GitHub Action Secrets:

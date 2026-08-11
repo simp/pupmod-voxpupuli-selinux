@@ -36,7 +36,9 @@ Pin the OpenVox/Puppet gem version for `bundle install`: `OPENVOX_GEM_VERSION='~
 
 ## CI
 
-`.github/workflows/` holds the standard SIMP workflows (`pr_tests.yml`, `tag_deploy.yml`, `release_rpms.yml`, `validate_tokens.yml`, `add_new_issue_to_triage_project.yml`), copied/adapted from the pupmod-simp-* puppetsync baseline. This repo is **not** managed by puppetsync, so baseline changes must be ported by hand. `pr_tests.yml` and `tag_deploy.yml` are adapted for this fork's Vox Pupuli toolchain: `rake module:build` replaces the simp-rake-helpers `pkg:*`/`pupmod:build` tasks, and there is no GitHub Actions acceptance job (use `./test-acceptance-with-vagrant` locally). Note that `simp_vox_migration.sh` deletes `.github/` on upstream import — restore these workflows afterwards like the other fork-specific files.
+`.github/workflows/` holds the standard SIMP workflows (`pr_tests.yml`, `tag_deploy.yml`, `release_rpms.yml`, `validate_tokens.yml`, `add_new_issue_to_triage_project.yml`) from the pupmod-simp-* puppetsync baseline. `pr_tests.yml` and `tag_deploy.yml` carry fork-specific deviations for this fork's Vox Pupuli toolchain (see the header comments in those files): `rake module:build` replaces the simp-rake-helpers `pkg:*`/`pupmod:build` tasks, the spec matrix pins via `OPENVOX_GEM_VERSION`, and there is no GitHub Actions acceptance job (use `./test-acceptance-with-vagrant` locally).
+
+This repo was recently added to puppetsync's repo list (`include_forks` in puppetsync's `data/sync/repolists/github-org.yaml`, syncing `simp-master`), but no sync has completed successfully against it yet. A baseline template merge would flatten the deviations above (puppetsync currently preserves only `jobs.acceptance`) — if that's not wanted, the repo can opt out via the `puppetsync-ignore` GitHub topic. Also note `simp_vox_migration.sh` deletes `.github/` on upstream import — restore these workflows afterwards like the other fork-specific files.
 
 ## Layout notes specific to this module
 

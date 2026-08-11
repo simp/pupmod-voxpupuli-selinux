@@ -1,13 +1,19 @@
 # Build & Deploy Puppet module & GitHub release when a SemVer tag is pushed
 # ------------------------------------------------------------------------------
 #
-#      NOTICE: **This file is adapted from the SIMP puppetsync baseline**
+#             NOTICE: **This file is maintained with puppetsync**
 #
-# This repo is not currently managed by puppetsync. This file follows the
-# baseline tag_deploy.yml from the pupmod-simp-* modules, adapted for this
-# fork's upstream (Vox Pupuli) toolchain: `rake module:build`
-# (puppet-blacksmith) replaces the simp-rake-helpers `pkg:*` /
-# `pupmod:build` tasks, which are not available here.
+# This file is updated automatically as part of a standardized asset baseline.
+#
+# The next baseline sync will overwrite any local changes to this file!
+#
+# ==============================================================================
+#
+# FORK-SPECIFIC DEVIATIONS from the pupmod-simp-* baseline — this fork keeps
+# the upstream (Vox Pupuli) Gemfile/Rakefile, which lacks simp-rake-helpers:
+# `rake module:build` (puppet-blacksmith) and an inline tag-vs-metadata.json
+# version assertion replace the `pkg:*` / `pupmod:build` tasks. A baseline
+# sync will flatten these unless puppetsync preserves or excludes them.
 #
 # ==============================================================================
 #

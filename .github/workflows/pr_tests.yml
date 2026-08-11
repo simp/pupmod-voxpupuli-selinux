@@ -1,17 +1,25 @@
 # Run Puppet checks and test matrix on Pull Requests
 # ------------------------------------------------------------------------------
-#      NOTICE: **This file is adapted from the SIMP puppetsync baseline**
+#             NOTICE: **This file is maintained with puppetsync**
 #
-# This repo is not currently managed by puppetsync. This file follows the
-# baseline pr_tests.yml from the pupmod-simp-* modules, adapted for this
-# fork's upstream (Vox Pupuli) toolchain:
+# This file is updated automatically as part of a puppet module baseline.
 #
-#   * The Gemfile pins the puppet gem via OPENVOX_GEM_VERSION (not
-#     PUPPET_VERSION)
-#   * `rake module:build` (puppet-blacksmith) replaces the simp-rake-helpers
-#     `pkg:*` / `pupmod:build` tasks, which are not available here
+# The next baseline sync will overwrite any local changes to this file!
+#
+# ==============================================================================
+#
+# FORK-SPECIFIC DEVIATIONS from the pupmod-simp-* baseline — this fork keeps
+# the upstream (Vox Pupuli) Gemfile/Rakefile, which lacks simp-rake-helpers:
+#
+#   * releng-checks runs `rake module:build` (puppet-blacksmith) instead of
+#     the `pkg:*` / `pupmod:build` tasks
+#   * The spec matrix pins the puppet gem via OPENVOX_GEM_VERSION (this
+#     Gemfile's variable), not PUPPET_VERSION
 #   * There is no beaker:suites acceptance job; acceptance tests run outside
 #     of GitHub Actions (see CLAUDE.md)
+#
+# A baseline sync will flatten the first two unless puppetsync preserves or
+# excludes them — if CI breaks on `rake pkg:*` after a sync, that's why.
 #
 # ==============================================================================
 #
