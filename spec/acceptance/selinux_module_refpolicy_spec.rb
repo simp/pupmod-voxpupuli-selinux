@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 #
@@ -10,9 +12,9 @@ describe 'selinux module refpolicy' do
     ensure_permissive_mode_on(hosts)
   end
 
-  let(:pp) do
+  let(:manifest) do
     <<-EOS
-      class { 'selinux': }
+      class { 'vox_selinux': }
 
       file {'/tmp/selinux_test_a.te':
         ensure  => 'file',
@@ -60,5 +62,5 @@ describe 'selinux module refpolicy' do
     EOS
   end
 
-  it_behaves_like 'a idempotent resource'
+  it_behaves_like 'an idempotent resource'
 end

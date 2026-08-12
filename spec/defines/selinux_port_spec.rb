@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'vox_selinux::port' do
@@ -6,7 +8,7 @@ describe 'vox_selinux::port' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) do
-        override_facts(os_facts, os: { selinux: { enabled: true } })
+        override_facts(os_facts, 'os' => { 'selinux' => { 'enabled' => true } })
       end
 
       context 'ordering' do
@@ -14,7 +16,7 @@ describe 'vox_selinux::port' do
           {
             seltype: 'http_port_t',
             port: 8080,
-            protocol: 'tcp'
+            protocol: 'tcp',
           }
         end
 
@@ -28,18 +30,19 @@ describe 'vox_selinux::port' do
             {
               seltype: 'http_port_t',
               port: 8080,
-              protocol: protocol
+              protocol: protocol,
             }
           end
 
           it { is_expected.to contain_selinux_port("#{protocol}_8080-8080").with(seltype: 'http_port_t') }
         end
+
         context "protocol #{protocol} and port_range" do
           let(:params) do
             {
               seltype: 'http_port_t',
               port_range: [8080, 8089],
-              protocol: protocol
+              protocol: protocol,
             }
           end
 
@@ -52,7 +55,7 @@ describe 'vox_selinux::port' do
           {
             seltype: 'http_port_t',
             port: 8080,
-            protocol: 'bad'
+            protocol: 'bad',
           }
         end
 
@@ -65,7 +68,7 @@ describe 'vox_selinux::port' do
             seltype: 'http_port_t',
             port: 8080,
             port_range: [8080, 8081],
-            protocol: 'tcp'
+            protocol: 'tcp',
           }
         end
 
@@ -76,7 +79,7 @@ describe 'vox_selinux::port' do
         let(:params) do
           {
             seltype: 'http_port_t',
-            port: 8080
+            port: 8080,
           }
         end
 

@@ -5,3 +5,7 @@ vox_selinux::manage_setroubleshoot_packages: false
 vox_selinux::setroubleshoot_package_names:
   - setroubleshoot
   - setroubleshoot-plugins
+vox_selinux::manage_selinux_sandbox_packages: false
+vox_selinux::selinux_sandbox_package_names: 
+ - policycoreutils-sandbox
+ - selinux-policy-sandbox

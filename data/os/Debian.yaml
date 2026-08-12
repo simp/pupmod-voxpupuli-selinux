@@ -1,3 +1,11 @@
 ---
+vox_selinux::package_name:
+  - policycoreutils-python-utils
+  - selinux-basics
+  - selinux-policy-default
+vox_selinux::refpolicy_package_name: selinux-policy-dev
 vox_selinux::manage_auditd_package: true
 vox_selinux::manage_setroubleshoot_packages: false
+vox_selinux::manage_selinux_sandbox_packages: false
+vox_selinux::selinux_sandbox_package_names:
+ - policycoreutils-sandbox

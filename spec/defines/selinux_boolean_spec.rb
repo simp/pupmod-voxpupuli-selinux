@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'vox_selinux::boolean' do
@@ -14,21 +16,21 @@ describe 'vox_selinux::boolean' do
 
       context 'SELinux enabled' do
         let(:facts) do
-          override_facts(super(), os: { selinux: { enabled: true } })
+          override_facts(super(), 'os' => { 'selinux' => { 'enabled' => true } })
         end
 
         ['on', true, 'present'].each do |value|
           context value do
             let(:params) do
               {
-                ensure: value
+                ensure: value,
               }
             end
 
             it do
               is_expected.to contain_selboolean('mybool').with(
                 'value'      => 'on',
-                'persistent' => true
+                'persistent' => true,
               )
             end
           end
@@ -38,14 +40,14 @@ describe 'vox_selinux::boolean' do
           context value do
             let(:params) do
               {
-                ensure: value
+                ensure: value,
               }
             end
 
             it do
               is_expected.to contain_selboolean('mybool').with(
                 'value'      => 'off',
-                'persistent' => true
+                'persistent' => true,
               )
             end
           end
@@ -54,14 +56,14 @@ describe 'vox_selinux::boolean' do
 
       context 'SELinux disabled' do
         let(:facts) do
-          override_facts(super(), os: { selinux: { enabled: false } })
+          override_facts(super(), 'os' => { 'selinux' => { 'enabled' => false } })
         end
 
         ['on', true, 'present'].each do |value|
           context value do
             let(:params) do
               {
-                ensure: value
+                ensure: value,
               }
             end
 
@@ -75,7 +77,7 @@ describe 'vox_selinux::boolean' do
           context value do
             let(:params) do
               {
-                ensure: value
+                ensure: value,
               }
             end
 

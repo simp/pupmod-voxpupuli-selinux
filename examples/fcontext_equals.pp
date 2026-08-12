@@ -1,4 +1,4 @@
-selinux::fcontext::equivalence { '/opt/wordpress':
+vox_selinux::fcontext::equivalence { '/opt/wordpress':
   ensure => 'present',
   target => '/usr/share/wordpress',
 }

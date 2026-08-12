@@ -23,7 +23,9 @@ define vox_selinux::permissive (
     -> Anchor['vox_selinux::module pre']
   }
 
-  selinux_permissive { $seltype:
-    ensure => $ensure,
+  if $facts['os']['selinux']['enabled'] {
+    selinux_permissive { $seltype:
+      ensure => $ensure,
+    }
   }
 }

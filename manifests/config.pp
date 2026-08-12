@@ -8,8 +8,8 @@
 # @api private
 #
 class vox_selinux::config (
-  $mode,
-  $type,
+  Optional[Enum['enforcing', 'permissive', 'disabled']] $mode = undef,
+  Optional[Enum['targeted', 'minimum', 'mls']] $type          = undef,
 ) {
   assert_private()
 

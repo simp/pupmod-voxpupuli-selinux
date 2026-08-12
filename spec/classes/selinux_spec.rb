@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'vox_selinux' do
@@ -25,9 +27,9 @@ describe 'vox_selinux' do
         let(:params) do
           {
             module: {
-              'mymodule1' =>  { 'source_te' => 'dummy' },
-              'mymodule2' =>  { 'source_te' => 'dummy' }
-            }
+              'mymodule1' => { 'source_te' => 'dummy' },
+              'mymodule2' => { 'source_te' => 'dummy' },
+            },
           }
         end
 
@@ -40,8 +42,8 @@ describe 'vox_selinux' do
           {
             boolean: {
               'mybool1' => {},
-              'mybool2' => {}
-            }
+              'mybool2' => {},
+            },
           }
         end
 
@@ -54,8 +56,8 @@ describe 'vox_selinux' do
           {
             port: {
               'myport1' => { 'seltype' => 'dummy', 'port' => 444, 'protocol' => 'tcp' },
-              'myport2' => { 'seltype' => 'dummy', 'port' => 445, 'protocol' => 'tcp' }
-            }
+              'myport2' => { 'seltype' => 'dummy', 'port' => 445, 'protocol' => 'tcp' },
+            },
           }
         end
 
@@ -68,8 +70,8 @@ describe 'vox_selinux' do
           {
             permissive: {
               'domain1' => { 'seltype' => 'domain1' },
-              'domain2' => { 'seltype' => 'domain2' }
-            }
+              'domain2' => { 'seltype' => 'domain2' },
+            },
           }
         end
 
@@ -83,14 +85,20 @@ describe 'vox_selinux' do
             fcontext: {
               'myfcontext1'    => { 'seltype' => 'mysqld_log_t', 'pathspec' => '/u01/log/mysql(/.*)?' },
               'myfcontext2'    => { 'seltype' => 'mysqld_log_t', 'pathspec' => '/u02/log/mysql(/.*)?' },
-              '/path/spec(.*)' => { 'seltype' => 'mysqld_log_t', 'pathspec' => '/path/spec(.*)' }
-            }
+              '/path/spec(.*)' => { 'seltype' => 'mysqld_log_t', 'pathspec' => '/path/spec(.*)' },
+            },
+            fcontext_equivalence: {
+              'myequiv1' => { 'target' => '/home', 'path' => '/test' },
+              '/example' => { 'target' => '/usr' },
+            },
           }
         end
 
         it { is_expected.to contain_vox_selinux__fcontext('myfcontext1') }
         it { is_expected.to contain_vox_selinux__fcontext('myfcontext2') }
         it { is_expected.to contain_vox_selinux__fcontext('/path/spec(.*)') }
+        it { is_expected.to contain_vox_selinux__fcontext__equivalence('myequiv1') }
+        it { is_expected.to contain_vox_selinux__fcontext__equivalence('/example') }
       end
     end
   end

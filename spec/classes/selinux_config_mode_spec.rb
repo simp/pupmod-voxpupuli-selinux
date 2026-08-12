@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'vox_selinux' do
@@ -5,12 +7,12 @@ describe 'vox_selinux' do
     context "on #{os}" do
       context 'when in enforcing mode' do
         let(:facts) do
-          override_facts(os_facts, os: { selinux: {
+          override_facts(os_facts, 'os' => { 'selinux' => {
                            'enabled' => true,
                            'enforced' => true,
                            'config_mode' => 'enforcing',
                            'config_policy' => 'targeted',
-                           'current_mode' => 'enforcing'
+                           'current_mode' => 'enforcing',
                          } })
         end
 
@@ -66,7 +68,7 @@ describe 'vox_selinux' do
         let(:facts) do
           # Get a deep copy and then fully override the selinux facts
           result = override_facts(os_facts)
-          result[:os]['selinux'] = { 'enabled' => false }
+          result['os']['selinux'] = { 'enabled' => false }
           result
         end
 
@@ -74,7 +76,7 @@ describe 'vox_selinux' do
           context "and requesting #{target_mode} mode" do
             let(:params) { { mode: target_mode } }
 
-            if os_facts[:osfamily] == 'Debian'
+            if os_facts['os']['family'] == 'Debian'
               it { is_expected.to contain_exec('activate-selinux') }
             else
               it { is_expected.not_to contain_exec('activate-selinux') }

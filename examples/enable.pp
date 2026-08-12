@@ -11,6 +11,6 @@
 # Sample Usage:
 #
 
-class { 'selinux':
+class { 'vox_selinux':
   mode => 'enforcing',
 }

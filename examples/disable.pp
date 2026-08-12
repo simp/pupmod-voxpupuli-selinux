@@ -11,11 +11,11 @@
 # Sample Usage:
 #
 
-class { 'selinux':
+class { 'vox_selinux':
   mode => 'disabled',
 }
 
 # Also acceptable
-# class { 'selinux':
+# class { 'vox_selinux':
 #   mode => 'permissive',
 # }

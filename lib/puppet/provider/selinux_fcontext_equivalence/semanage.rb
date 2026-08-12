@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 Puppet::Type.type(:selinux_fcontext_equivalence).provide(:semanage) do
   desc 'Support managing SELinux custom fcontext definitions via semanage'
 
   defaultfor kernel: 'Linux'
 
   commands semanage: 'semanage'
-  confine selinux: true
+  confine 'os.selinux.enabled': true
 
   mk_resource_methods
 
@@ -13,6 +15,7 @@ Puppet::Type.type(:selinux_fcontext_equivalence).provide(:semanage) do
     lines.each do |line|
       next if line.strip.empty?
       next if line =~ %r{^#}
+
       source, target = line.split(%r{\s+})
       ret.push(new(ensure: :present,
                    name: source,

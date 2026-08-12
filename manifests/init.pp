@@ -1,7 +1,7 @@
 # Manage SELinux on RHEL based systems.
 #
 # @example Enable enforcing mode with targeted policy
-#   class { 'selinux':
+#   class { 'vox_selinux':
 #     mode => 'enforcing',
 #     type => 'targeted',
 #   }
@@ -20,22 +20,28 @@
 # @param manage_package manage the package for selinux tools and refpolicy
 # @param auditd_package_name used when `manage_auditd_package` is true
 # @param manage_setroubleshoot_packages manage the setroubleshoot packages
+# @param manage_selinux_sandbox_packages manage the selinux sandbox packages
 # @param setroubleshoot_package_names the names of the setroubleshoot packages
+# @param selinux_sandbox_package_names the names of the selinux sandbox packages
 # @param module_build_root directory where modules are built. Defaults to `$vardir/puppet-selinux`
 # @param default_builder which builder to use by default with vox_selinux::module
 # @param boolean Hash of vox_selinux::boolean resource parameters
 # @param fcontext Hash of vox_selinux::fcontext resource parameters
+# @param fcontext_equivalence Hash of vox_selinux::fcontext::equivalence resource parameters
 # @param module Hash of vox_selinux::module resource parameters
 # @param permissive Hash of vox_selinux::module resource parameters
 # @param port Hash of vox_selinux::port resource parameters
 # @param exec_restorecon Hash of vox_selinux::exec_restorecon resource parameters
+# @param login Hash of vox_selinux::login resource parameters
 #
 class vox_selinux (
   Variant[String[1], Array[String[1]]] $package_name,
   Boolean $manage_auditd_package,
   String $refpolicy_package_name,
   Boolean $manage_setroubleshoot_packages,
+  Boolean $manage_selinux_sandbox_packages,
   Array[String] $setroubleshoot_package_names                 = [],
+  Array[String] $selinux_sandbox_package_names                = [],
   Optional[Enum['enforcing', 'permissive', 'disabled']] $mode = undef,
   Optional[Enum['targeted', 'minimum', 'mls']] $type          = undef,
   Stdlib::Absolutepath $refpolicy_makefile                    = '/usr/share/selinux/devel/Makefile',
@@ -44,20 +50,24 @@ class vox_selinux (
   Stdlib::Absolutepath $module_build_root                     = "${facts['puppet_vardir']}/puppet-selinux",
   Enum['refpolicy', 'simple'] $default_builder                = 'simple',
 
-  Optional[Hash] $boolean         = undef,
-  Optional[Hash] $fcontext        = undef,
-  Optional[Hash] $module          = undef,
-  Optional[Hash] $permissive      = undef,
-  Optional[Hash] $port            = undef,
-  Optional[Hash] $exec_restorecon = undef,
+  Optional[Hash] $boolean              = undef,
+  Optional[Hash] $fcontext             = undef,
+  Optional[Hash] $fcontext_equivalence = undef,
+  Optional[Hash] $module               = undef,
+  Optional[Hash] $permissive           = undef,
+  Optional[Hash] $port                 = undef,
+  Optional[Hash] $exec_restorecon      = undef,
+  Hash[String[1],Hash[String[1],String[1]]] $login = {},
 ) {
   class { 'vox_selinux::package':
-    manage_package                 => $manage_package,
-    package_names                  => Array.new($package_name, true),
-    manage_auditd_package          => $manage_auditd_package,
-    auditd_package_name            => $auditd_package_name,
-    manage_setroubleshoot_packages => $manage_setroubleshoot_packages,
-    setroubleshoot_package_names   => $setroubleshoot_package_names,
+    manage_package                  => $manage_package,
+    package_names                   => Array.new($package_name, true),
+    manage_auditd_package           => $manage_auditd_package,
+    auditd_package_name             => $auditd_package_name,
+    manage_setroubleshoot_packages  => $manage_setroubleshoot_packages,
+    setroubleshoot_package_names    => $setroubleshoot_package_names,
+    manage_selinux_sandbox_packages => $manage_selinux_sandbox_packages,
+    selinux_sandbox_package_names   => $selinux_sandbox_package_names,
   }
 
   class { 'vox_selinux::config':
@@ -71,6 +81,9 @@ class vox_selinux (
   if $fcontext {
     create_resources ( 'vox_selinux::fcontext', $fcontext )
   }
+  if $fcontext_equivalence {
+    create_resources ( 'vox_selinux::fcontext::equivalence', $fcontext_equivalence )
+  }
   if $module {
     create_resources ( 'vox_selinux::module', $module )
   }
@@ -82,6 +95,11 @@ class vox_selinux (
   }
   if $exec_restorecon {
     create_resources ( 'vox_selinux::exec_restorecon', $exec_restorecon )
+  }
+  $login.each |$login_name, $login_attributes| {
+    vox_selinux::login { $login_name:
+      * => $login_attributes,
+    }
   }
 
   # Ordering
