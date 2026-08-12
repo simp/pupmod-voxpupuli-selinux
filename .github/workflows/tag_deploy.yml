@@ -12,7 +12,9 @@
 # FORK-SPECIFIC DEVIATIONS from the pupmod-simp-* baseline — this fork keeps
 # the upstream (Vox Pupuli) Gemfile/Rakefile, which lacks simp-rake-helpers:
 # `rake module:build` (puppet-blacksmith) and an inline tag-vs-metadata.json
-# version assertion replace the `pkg:*` / `pupmod:build` tasks. A baseline
+# version assertion replace the `pkg:*` / `pupmod:build` tasks. This fork
+# also releases from `simp-X.Y.Z` tags (bare `vX.Y.Z` tags mirror upstream
+# releases), so the trigger includes `simp-`-prefixed patterns. A baseline
 # sync will flatten these unless puppetsync preserves or excludes them.
 #
 # ==============================================================================
@@ -45,6 +47,8 @@ on:
       #   https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
       - '[0-9]+\.[0-9]+\.[0-9]+'
       - '[0-9]+\.[0-9]+\.[0-9]+\-[a-z]+[0-9]+'
+      - 'simp-[0-9]+\.[0-9]+\.[0-9]+'
+      - 'simp-[0-9]+\.[0-9]+\.[0-9]+\-[a-z]+[0-9]+'
 
 env:
   OPENVOX_GEM_VERSION: '~> 8'
@@ -69,9 +73,14 @@ jobs:
       - name: "Assert that the tag matches metadata.json version"
         run: |
           tag="${GITHUB_REF/refs\/tags\//}"
+          # Strip this fork's `simp-` release prefix (or a `v` prefix) and any
+          # prerelease suffix before comparing to the metadata.json version
+          bare="${tag#simp-}"
+          bare="${bare#v}"
+          bare="${bare%%-*}"
           version="$(ruby -rjson -e 'puts JSON.parse(File.read("metadata.json"))["version"]')"
-          if [ "$tag" != "$version" ]; then
-            echo "::error ::Tag '${tag}' does not match metadata.json version '${version}'"
+          if [ "$bare" != "$version" ]; then
+            echo "::error ::Tag '${tag}' (version '${bare}') does not match metadata.json version '${version}'"
             exit 1
           fi
       - name: "Test that Puppet module can build"
